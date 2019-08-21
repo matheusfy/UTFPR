@@ -1,0 +1,58 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Jul  2 00:20:20 2019
+
+@author: matheusfy
+"""
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn import linear_model
+from sklearn.metrics import accuracy_score
+df = pd.read_csv('/home/matheusfy/Downloads/Base.csv', ',')
+df['Rotulo'] = pd.factorize(df['Rotulo'])[0]
+df['Sabor'] = pd.factorize(df['Sabor'])[0]
+df['Cor_f'] = pd.factorize(df['Cor_f'])[0]
+df['Cor_d'] = pd.factorize(df['Cor_d'])[0]
+df['Textura'] = pd.factorize(df['Textura'])[0]
+x = df.iloc[:,1:].values
+y = df.iloc[:,:1].values
+
+#%%
+x_train, x_test, y_train, y_test = train_test_split(
+    x, y, test_size=0.3, random_state=0)
+
+from sklearn.preprocessing import StandardScaler
+
+sc = StandardScaler()
+sc.fit(x_train)
+x_train_std = sc.transform(x_train)
+x_test_std = sc.transform(x_test)
+
+
+#%%   Perceptron
+
+clf = linear_model.Perceptron(penalty = 'l1', max_iter = 10, verbose = 1)
+clf.fit(x_train_std, np.ravel(y_train))
+clf.predict(x_test_std)
+accuracy_score(clf.predict(x_test_std),y_test)
+
+
+#%%    Adaline
+
+regr =  linear_model.LinearRegression()
+regr.fit(x_train_std, y_train)
+regr.predict(x_test_std)
+
+accuracy_score(np.round(np.round(np.array(regr.predict(x_test_std)))).flatten(), y_test)
+
+
+#%%   Logistic
+
+clf2 = linear_model.LogisticRegression(penalty = 'l1', tol=1e-3, max_iter = 10, verbose = 1, solver = 'liblinear' )
+clf2.fit(x_train_std, np.ravel(y_train))
+clf2.predict(x_test_std)
+
+accuracy_score(clf2.predict(x_test),y_test)
