@@ -10,7 +10,6 @@
 #define Preto 2
 
 
-
 void GrafoTeste(Grafo *G)
 {
   inserirVertice(G,1);
