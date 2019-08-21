@@ -1,0 +1,6 @@
+read x% ;
+} entrada de um inteiro 
+if 0 < 8x then
+ não calcula se x < 0 
+} 
+}
