@@ -7,8 +7,6 @@
 int main (int argc, char *argv[])
 {
 
-               //define fila
-
   FILE *arq_palavras;
   char ch;
   char v[60];
@@ -49,7 +47,7 @@ int main (int argc, char *argv[])
               }
 
             }
-            else if(vertex == true && firstline == true)
+            else if(vertex == true && firstline == true) // garante que saiu da primeira linha
             {
               firstline = false;
               // printf("primeiro\n" );
@@ -61,17 +59,17 @@ int main (int argc, char *argv[])
               //  inserindo arestas
               firstvalue = true;
             }
-            else if(firstvalue == true && secondvalue == false)
+            else if(firstvalue == true && secondvalue == false) // condicao para garantir o primeiro valor depois do 'e'
             {
               fvalue = atoi(v);
               secondvalue = true;
             }
-            else if(firstvalue == true && secondvalue == true)
+            else if(firstvalue == true && secondvalue == true) // condicao para garantir o segundo valor
             {
               svalue = atoi(v);
               printf("frstvalue = %d, scondvalue = %d\n", fvalue ,svalue );
               inserirAresta(&G, fvalue, svalue);
-              firstvalue = false;
+              firstvalue = false; // reseta flags e volta para a primeira condicao onde comecam as linhas 
               secondvalue = false;
             }
             i = 0;
