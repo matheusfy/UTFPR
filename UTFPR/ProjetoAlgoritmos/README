@@ -1,0 +1,6 @@
+Trabalho 1 - Método guloso para o problema de cobertura mínima de vértices.
+
+No arquivo de trabalho contém o código para leitura das instâncias de entrada.
+No arquivo Grafo.h está localizado as funções para entrada de vértices e arestas do Grafo e função para visualização do mesmo.
+
+
