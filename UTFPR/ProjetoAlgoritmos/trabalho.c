@@ -6,17 +6,28 @@
 #include "Grafo.h"
 int main (int argc, char *argv[])
 {
+  Grafo G;
+  Define(&G);
+  char nome[20];
+  printf("coloque aqui o nome do arquivo\n");
+  scanf(" %s", &nome);
+  readArchive(&G,nome);
+  visualizarGrafo(&G);
+  return 0;
+}
 
+
+void readArchive(Grafo *G, char nome[])
+{
   FILE *arq_palavras;
+  arq_palavras = fopen(nome, "rt"); // abre o arquivo txt
+
   char ch;
   char v[60];
   int i=0, flag=0, vertexnumber = 0, fvalue = -1, svalue = -1;
   bool firstline = false, vertex = false, endofline = false, firstvalue = false, secondvalue = false;
 
-  Grafo G;
-  Define(&G);
 
-  arq_palavras = fopen("numero.txt", "rt"); // abre o arquivo txt
     while((ch = fgetc(arq_palavras)) != EOF) // verificaçao enquanto não é o final do arquivo
     {
 
@@ -43,7 +54,7 @@ int main (int argc, char *argv[])
               int numVertex = atoi(v);
               for(int j=1; j <= numVertex; j++)
               {
-                inserirVertice(&G,j);
+                inserirVertice(G,j);
               }
 
             }
@@ -68,14 +79,12 @@ int main (int argc, char *argv[])
             {
               svalue = atoi(v);
               printf("frstvalue = %d, scondvalue = %d\n", fvalue ,svalue );
-              inserirAresta(&G, fvalue, svalue);
-              firstvalue = false; // reseta flags e volta para a primeira condicao onde comecam as linhas 
+              inserirAresta(G, fvalue, svalue);
+              firstvalue = false; // reseta flags e volta para a primeira condicao onde comecam as linhas
               secondvalue = false;
             }
             i = 0;
         }
       }
 fclose(arq_palavras);
-visualizarGrafo(&G);
-return 0;
 }
