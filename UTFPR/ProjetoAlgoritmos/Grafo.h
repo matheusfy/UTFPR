@@ -5,12 +5,8 @@
 
 typedef struct NoTag
 {
-    int peso;
     int id;
     int cor;
-    int d;
-    int pai;
-    int f;
     int key;
     struct NoTag *prox;
     struct NoTag *down;
@@ -74,7 +70,7 @@ void inserirVertice(Grafo *G, int v) // funcao que insere o vertice no grafo
     novo->cor = Branco;
     G->inicioG = novo;
     G->numV++;
-    printf("Inserido com sucesso o vertice : %d\n",v);
+    // printf("Inserido com sucesso o vertice : %d\n",v);
   }
   else if(verificaV(G,v) != 1 ) // verifica se o vertice ja existe no grafo ou nao
   {
@@ -92,7 +88,7 @@ void inserirVertice(Grafo *G, int v) // funcao que insere o vertice no grafo
     novo->id = v;
     novo->cor = Branco;
     G->numV++; // aumenta o num de vertice
-    printf("Inserido com sucesso o vertice : %d\n",v);
+    // printf("Inserido com sucesso o vertice : %d\n",v);
   }
   else
   {
@@ -100,7 +96,7 @@ void inserirVertice(Grafo *G, int v) // funcao que insere o vertice no grafo
   }
 }
 
-int inserirAresta(Grafo *G, int v1, int v2, int peso)
+int inserirAresta(Grafo *G, int v1, int v2)
 {
   no *novo1;
   no *novo2;
@@ -124,7 +120,6 @@ int inserirAresta(Grafo *G, int v1, int v2, int peso)
         novo1->prox = NULL;
         novo1->down = NULL;
         novo1->id = v2;
-        novo1->peso = peso;
         aux1->prox = novo1;
       }
       else
@@ -149,29 +144,27 @@ int inserirAresta(Grafo *G, int v1, int v2, int peso)
         novo1->prox = NULL;
         novo1->down = NULL;
         novo1->id = v2;
-        novo1->peso = peso;
         aux1->prox = novo1;
       }
-       // CASO O GRAFO NAO FOR DIRECIONADO, INSERE O PAR ORDENADO DIRETO
-      // while(aux2->id != v2) // continua da onde o aux2 parou, percorre, e encontra o segundo vertice
-      // {
-      //   aux2 = aux2->down;
-      // }
-      //
-      // aux1 = aux2;
-      // // percorre ate a ultima posicao
-      // while(aux1->prox != NULL)
-      // {
-      //   aux1 = aux1->prox;
-      // } // * ****** insere na ultima posicao da lista de arestas
-      //
-      // novo2 = (no*)malloc(sizeof(no));
-      // novo2->prox = NULL;
-      // novo2->down = NULL;
-      // novo2->id = v1;
-      // novo2->peso = 0;
-      // aux1->prox = novo2;
-      // flag = 1;
+    //  CASO O GRAFO NAO FOR DIRECIONADO, INSERE O PAR ORDENADO DIRETO
+      while(aux2->id != v2) // continua da onde o aux2 parou, percorre, e encontra o segundo vertice
+      {
+        aux2 = aux2->down;
+      }
+
+      aux1 = aux2;
+      // percorre ate a ultima posicao
+      while(aux1->prox != NULL)
+      {
+        aux1 = aux1->prox;
+      } // * ****** insere na ultima posicao da lista de arestas
+
+      novo2 = (no*)malloc(sizeof(no));
+      novo2->prox = NULL;
+      novo2->down = NULL;
+      novo2->id = v1;
+      aux1->prox = novo2;
+      flag = 1;
     }
     else
     {
@@ -189,7 +182,6 @@ int inserirAresta(Grafo *G, int v1, int v2, int peso)
     //     novo1->prox = NULL;
     //     novo1->down = NULL;
     //     novo1->id = v1;
-    //     novo1->peso = 0;
     //     aux1->prox = novo1;
     //   }
     //   else
@@ -211,7 +203,6 @@ int inserirAresta(Grafo *G, int v1, int v2, int peso)
     //     novo1->prox = NULL;
     //     novo1->down = NULL;
     //     novo1->id = v1;
-    //     novo1->peso = 0;
     //     aux1->prox = novo1;
     //   }
     //
@@ -231,7 +222,6 @@ int inserirAresta(Grafo *G, int v1, int v2, int peso)
     //   novo2->prox = NULL;
     //   novo2->down = NULL;
     //   novo2->id = v2;
-    //   novo2->peso = 0;
     //   aux1->prox = novo2;
     // }
     // else
