@@ -4,19 +4,9 @@
 #include <stdbool.h>
 //#include "estrutura.h"
 #include "Grafo.h"
-int main (int argc, char *argv[])
-{
-  Grafo G;
-  Define(&G);
-  char nome[20];
-  printf("coloque aqui o nome do arquivo\n");
-  scanf(" %s", &nome);
-  readArchive(&G,nome);
-  visualizarGrafo(&G);
-  return 0;
-}
+//#include "busca.h"
 
-
+/******************** IMPLEMENTACAO DO METODO GULOSO PARA COBERTURA MINIMA DE VERTICES **************************/
 void readArchive(Grafo *G, char nome[])
 {
   FILE *arq_palavras;
@@ -24,7 +14,7 @@ void readArchive(Grafo *G, char nome[])
 
   char ch;
   char v[60];
-  int i=0, flag=0, vertexnumber = 0, fvalue = -1, svalue = -1;
+  int i=0, flag=0, vertexnumber = 0, fvalue = -1, svalue = -1, x= 0;
   bool firstline = false, vertex = false, endofline = false, firstvalue = false, secondvalue = false;
 
 
@@ -42,24 +32,25 @@ void readArchive(Grafo *G, char nome[])
 
             if(v[0] == 'p') // primeira linha
             {
+              sleep(1);
+              printf("entrou\n");
               firstline = true;
             }
-            else if(v[0] != 'p' && firstline == true && vertex == false)
+            else if(strcmp(v,"edge") && firstline == true && vertex == false)
             {
 
-              if(strcmp(v,"edge")) // verifica se passou pela palavra para inserir quantidade de vertices vertices
-              {
-                vertex = true;
-              }
+              vertex = true;
               int numVertex = atoi(v);
+              printf("numeros de vertices : %d\n", numVertex);
               for(int j=1; j <= numVertex; j++)
               {
                 inserirVertice(G,j);
               }
-
+              x = 0;
             }
             else if(vertex == true && firstline == true) // garante que saiu da primeira linha
             {
+
               firstline = false;
               // printf("primeiro\n" );
             }
@@ -78,7 +69,7 @@ void readArchive(Grafo *G, char nome[])
             else if(firstvalue == true && secondvalue == true) // condicao para garantir o segundo valor
             {
               svalue = atoi(v);
-              printf("frstvalue = %d, scondvalue = %d\n", fvalue ,svalue );
+              // printf("frstvalue = %d, scondvalue = %d\n", fvalue ,svalue ); // printi para ver se estava armazenando na variavel os valores corretamente
               inserirAresta(G, fvalue, svalue);
               firstvalue = false; // reseta flags e volta para a primeira condicao onde comecam as linhas
               secondvalue = false;
@@ -87,4 +78,19 @@ void readArchive(Grafo *G, char nome[])
         }
       }
 fclose(arq_palavras);
+}
+
+
+int main (int argc, char *argv[])
+{
+  Grafo G;
+  Define(&G);
+  char nome[20];
+  printf("coloque aqui o nome do arquivo\n");
+  scanf(" %s", &nome);
+  readArchive(&G,nome);
+  visualizarGrafo(&G);
+// comecar implementacao do metodo guloso para
+
+  return 0;
 }

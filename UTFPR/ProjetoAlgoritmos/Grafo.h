@@ -2,7 +2,6 @@
 #define Cinza  1
 #define Preto 2
 
-
 typedef struct NoTag
 {
     int id;
@@ -258,7 +257,7 @@ int removerA(no *vertice, int id)  // perceorre as arestas daquele vertice
       aux1 = aux1->prox;
       aux2 = aux2->prox;
     }
-return 0; // caso 0  -> nao teve nenhuma aresta que foi removida
+    return 0; // caso 0  -> nao teve nenhuma aresta que foi removida
   }
 
 }
@@ -416,7 +415,7 @@ void visualizarGrafo(Grafo *G)
   printf("\n");
 }
 
-void grauVertice(Grafo *G,no *p)
+int grauVertice(Grafo *G,no *p) // retorna o grau do vertice
 {
   int grau=0;
   while(p->prox != NULL) /**enquanto diferente de nulo, incrementa grau do vertice**/
@@ -425,6 +424,7 @@ void grauVertice(Grafo *G,no *p)
     p = p->prox;
   }
   printf("O vertice é de grau %d\n", grau);
+  return grau;
 }
 
 void esvaziaGrafo(Grafo *G)
