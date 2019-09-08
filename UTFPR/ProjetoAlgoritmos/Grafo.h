@@ -7,6 +7,7 @@ typedef struct NoTag
     int id;
     int cor;
     int key;
+    int naresta;
     struct NoTag *prox;
     struct NoTag *down;
 
@@ -67,6 +68,7 @@ void inserirVertice(Grafo *G, int v) // funcao que insere o vertice no grafo
     novo->down = NULL;
     novo->id = v;
     novo->cor = Branco;
+    novo->naresta = 0;
     G->inicioG = novo;
     G->numV++;
     // printf("Inserido com sucesso o vertice : %d\n",v);
@@ -86,6 +88,7 @@ void inserirVertice(Grafo *G, int v) // funcao que insere o vertice no grafo
     novo->down = NULL;
     novo->id = v;
     novo->cor = Branco;
+    novo->naresta = 0;
     G->numV++; // aumenta o num de vertice
     // printf("Inserido com sucesso o vertice : %d\n",v);
   }
@@ -145,6 +148,7 @@ int inserirAresta(Grafo *G, int v1, int v2)
         novo1->id = v2;
         aux1->prox = novo1;
       }
+      // aux2->naresta = aux2->naresta + 1;
     //  CASO O GRAFO NAO FOR DIRECIONADO, INSERE O PAR ORDENADO DIRETO
       while(aux2->id != v2) // continua da onde o aux2 parou, percorre, e encontra o segundo vertice
       {
@@ -164,6 +168,8 @@ int inserirAresta(Grafo *G, int v1, int v2)
       novo2->id = v1;
       aux1->prox = novo2;
       flag = 1;
+      // aux2->naresta = aux2->naresta + 1;
+
     }
     else
     {
@@ -420,10 +426,10 @@ int grauVertice(Grafo *G,no *p) // retorna o grau do vertice
   int grau=0;
   while(p->prox != NULL) /**enquanto diferente de nulo, incrementa grau do vertice**/
   {
-    grau++;
+    if(p->cor != Preto) grau++;
     p = p->prox;
   }
-  printf("O vertice é de grau %d\n", grau);
+  // printf("O vertice é de grau %d\n", grau);
   return grau;
 }
 

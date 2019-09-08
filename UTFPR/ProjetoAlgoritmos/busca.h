@@ -1,64 +1,114 @@
+#include <stdbool.h>
 #define Branco 0
 #define Cinza  1
 #define Preto 2
 
 
-
-int inicializaGuloso(Grafo *G)
+int inicializaGuloso(Grafo *G) // inicializa guloso, pintando todos vertices e arestas de branco
 {
   no *vertice;
   no *aresta;
   vertice = G->inicioG;
-
   while(vertice != NULL) // limpa a cor das arestas e vertices
   {
     aresta = vertice->prox;
     while(aresta != NULL)
     {
+      vertice->naresta++;
       aresta->cor = Branco;
       aresta = aresta->prox;
     }
-
     vertice->cor = Branco;
     vertice = vertice->down;
   }
 
+  return 0;
 }
 
-int guloso(Grafo *G, Grafo *Q)
+no *buscaVertice(Grafo *G) // funcao que busca o vertice de maior grau que ainda não tem todas as arestas cobertas
+{
+    no *aux;
+    no *vertice;
+    vertice = G->inicioG;
+    aux = vertice->down;
+
+    while(aux != NULL)
+    {
+      if((grauVertice(G,aux) > grauVertice(G,vertice) && aux->cor != Preto) || (aux->prox == NULL && aux->cor == Branco && vertice->cor == Preto))
+      {
+        vertice = aux;
+      }
+      aux = aux->down;
+    }
+    if(vertice->cor == Preto)
+    {
+      return NULL;
+    }
+
+    return vertice;
+}
+
+int pintaVertice(Grafo *G, int vertice, int aresta)
+{
+    no *aux;
+    aux = G->inicioG;
+    while(aux->id != vertice) // percorre ate encontrar o vertice
+    {
+      aux = aux->down;
+    }
+    if(aux->cor!= Preto) // se a cor do vertice nao é preta
+    {
+      no * aux2;
+      aux2 = aux->prox; // recebe a aresta do vertice
+      while(aux2->id != aresta) // percorre ate encontrar o id da aresta a ser pintada
+      {
+        aux2 = aux2->prox;
+      }
+      aux2->cor = Preto; // pinta a aresta encontrada de preto
+      aux->naresta--; // diminui o num de aresta do vertice
+      if(aux->naresta == 0) // se o vertice nao tem mais ligacoes entao esta coberto e pinta de preto
+      {
+        aux->cor = Preto;
+      }
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+
+
+}
+
+int guloso(Grafo *G, int vetor[])
 {
     no *vertice;
     no *aresta;
+    no *noGrau;
     inicializaGuloso(G); // prepara grafo para realizar a busca
+    while(buscaVertice(G) != NULL) // busca o vertice com maior numero de arestas não cobertas
+    {
+        noGrau = buscaVertice(G);
+        aresta = noGrau->prox;
 
+        while(aresta != NULL) // loop para percorrer as arestas do vertice
+        {
+          pintaVertice(G,aresta->id,noGrau->id); // pula para uma funcao que pinta a adjacencia do vertice
+          if(aresta->cor != Preto) // se a aresta nao tem a cor preta entao pinta
+          {
+            aresta->cor = Preto;
+            noGrau->naresta--; // diminui o grau do vertice
+          }
+          aresta = aresta->prox; // proxima aresta
+        }
+        noGrau->cor = Preto; // pinta o vertice de preto
+        printf("pintou %d\n", noGrau->id);
+        vetor[noGrau->id-1] = 1; // seta o indice do vertice que foi pintado no vetor final
+    }
     // buscar o vertice de maior grau e pintar suas arestas
-    while(vertice->prox!= NULL)
-    {
 
-    }
 }
 
-
-no *buscaVertice(Grafo *G)
-{
-  no *aux;
-  no *vertice;
-  aux = G->inicioG->down;
-  vertice = G->inicioG;
-  while(aux != NULL)
-  {
-    if(grauVertice(G,aux)>grauVertice(G,vertice))
-    {
-      vertice = aux;
-    }
-    aux = aux->down;
-  }
-
-  if(vertice->cor = Preto)
-  {
-
-  }
-}
 
 
 

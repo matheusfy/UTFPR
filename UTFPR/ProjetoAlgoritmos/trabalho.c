@@ -4,9 +4,34 @@
 #include <stdbool.h>
 //#include "estrutura.h"
 #include "Grafo.h"
-//#include "busca.h"
+#include "busca.h"
+void readArchive(Grafo *G, char nome[]);
 
 /******************** IMPLEMENTACAO DO METODO GULOSO PARA COBERTURA MINIMA DE VERTICES **************************/
+
+int main (int argc, char *argv[])
+{
+  Grafo G;
+  Define(&G);
+  char nome[20];
+  printf("coloque aqui o nome do arquivo\n");
+  scanf(" %s", &nome);
+  readArchive(&G,nome);
+  visualizarGrafo(&G);
+  int vetor[G.numV];
+  for(int i = 0; i < (int)sizeof(vetor)/sizeof(vetor[0]); i++)
+  {
+    vetor[i] = 0;
+  }
+  guloso(&G,vetor);
+  for(int i = 0; i < (int)sizeof(vetor)/sizeof(vetor[0]); i++)
+  {
+    printf("%d ", vetor[i]);
+  }
+
+  return 0;
+}
+
 void readArchive(Grafo *G, char nome[])
 {
   FILE *arq_palavras;
@@ -32,8 +57,6 @@ void readArchive(Grafo *G, char nome[])
 
             if(v[0] == 'p') // primeira linha
             {
-              sleep(1);
-              printf("entrou\n");
               firstline = true;
             }
             else if(strcmp(v,"edge") && firstline == true && vertex == false)
@@ -41,18 +64,16 @@ void readArchive(Grafo *G, char nome[])
 
               vertex = true;
               int numVertex = atoi(v);
-              printf("numeros de vertices : %d\n", numVertex);
+              // printf("numeros de vertices : %d\n", numVertex);
               for(int j=1; j <= numVertex; j++)
               {
                 inserirVertice(G,j);
               }
-              x = 0;
             }
             else if(vertex == true && firstline == true) // garante que saiu da primeira linha
             {
 
               firstline = false;
-              // printf("primeiro\n" );
             }
 
             // A partir da segunda linha
@@ -78,19 +99,4 @@ void readArchive(Grafo *G, char nome[])
         }
       }
 fclose(arq_palavras);
-}
-
-
-int main (int argc, char *argv[])
-{
-  Grafo G;
-  Define(&G);
-  char nome[20];
-  printf("coloque aqui o nome do arquivo\n");
-  scanf(" %s", &nome);
-  readArchive(&G,nome);
-  visualizarGrafo(&G);
-// comecar implementacao do metodo guloso para
-
-  return 0;
 }
