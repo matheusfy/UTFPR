@@ -107,6 +107,7 @@ int inserirAresta(Grafo *G, int v1, int v2)
   int flag =0;
   aux1 = G->inicioG;
   aux2 = G->inicioG;
+
   if((verificaV(G,v1)==1) && (verificaV(G,v2)==1) && (v1!=v2) &&(G->numV>1)) //verifica se existe os dois vertices digitados pelo usuário ou se o num de vertice é maior que 1 para poder realizar a insercao
   {
 

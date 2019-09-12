@@ -1,0 +1,15 @@
+entrada: exemploslide.txt
+
+----------- solucao 1, MVC: 0, tempo = 0.000009 -----------
+
+----------- solucao 2, MVC: 0, tempo = 0.000009 -----------
+
+----------- solucao 3, MVC: 0, tempo = 0.000009 -----------
+4 
+----------- solucao 4, MVC: 1, tempo = 0.000009 -----------
+5 
+----------- solucao 5, MVC: 2, tempo = 0.000009 -----------
+6 
+----------- solucao 6, MVC: 3, tempo = 0.000009 -----------
+
+----------- solucao 7, MVC: 3, tempo = 0.000009 -----------

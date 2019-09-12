@@ -1,8 +1,13 @@
+/*
+    UNIVERSIDADE TECNOLÓGICA FEDERAL DO PARANÁ
+    ACADÊMICO : MATHEUS FELIPIN YOKOYAMA
+    DISCIPLINA : PROJETO DE ALGORITMOS
+    -----------TRABALHO 1--------------
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-//#include "estrutura.h"
 #include "Grafo.h"
 #include "busca.h"
 void readArchive(Grafo *G, char nome[]);
@@ -11,24 +16,43 @@ void readArchive(Grafo *G, char nome[]);
 
 int main (int argc, char *argv[])
 {
-  Grafo G;
-  Define(&G);
+  Grafo G; // cria grafo
+  Define(&G); // define grafo
+
   char nome[20];
-  printf("coloque aqui o nome do arquivo\n");
+  int solucao =1;
+  FILE *fptr;
+  fptr = fopen("tabela.txt", "w"); // abre o arquivo tabela em modo escrita para escrever resultados
+
+  printf("digite: nomeArquivo.tipo\n"); // arquivos que contem as instancias de entrada
   scanf(" %s", &nome);
-  readArchive(&G,nome);
-  visualizarGrafo(&G);
-  int vetor[G.numV];
+  readArchive(&G,nome); // ler arquivo de entrada
+
+  int vetor[G.numV]; // cria vetor para armazenar a resposta
   for(int i = 0; i < (int)sizeof(vetor)/sizeof(vetor[0]); i++)
   {
     vetor[i] = 0;
   }
-  guloso(&G,vetor);
-  for(int i = 0; i < (int)sizeof(vetor)/sizeof(vetor[0]); i++)
-  {
-    printf("%d ", vetor[i]);
+  double tempo;
+  fprintf(fptr, "entrada: %s\n", nome); // escreve o nome da entrada no txt
+
+  // for(int i = 0; i<12; i++)
+  // {
+    guloso(&G, vetor, &tempo); // metodo guloso para entrada
+    int vconjunto = 0;
+    for(int i = 0; i < (int)sizeof(vetor)/sizeof(vetor[0]); i++)
+    {
+      if(vetor[i] == 1)
+      {
+        fprintf(fptr, "%d ", i+1); // escreve no arquivo os vertices que foram pintados
+        vconjunto++;
+      }
+    // }
+
+    fprintf(fptr, "\n----------- solucao %d, MVC: %d, tempo = %lf -----------\n", solucao++,vconjunto, tempo);
   }
 
+  fclose(fptr); // fecha arquivo tabela
   return 0;
 }
 
@@ -90,7 +114,6 @@ void readArchive(Grafo *G, char nome[])
             else if(firstvalue == true && secondvalue == true) // condicao para garantir o segundo valor
             {
               svalue = atoi(v);
-              // printf("frstvalue = %d, scondvalue = %d\n", fvalue ,svalue ); // printi para ver se estava armazenando na variavel os valores corretamente
               inserirAresta(G, fvalue, svalue);
               firstvalue = false; // reseta flags e volta para a primeira condicao onde comecam as linhas
               secondvalue = false;

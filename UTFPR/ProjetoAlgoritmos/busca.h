@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <time.h>
 #define Branco 0
 #define Cinza  1
 #define Preto 2
@@ -80,15 +81,30 @@ int pintaVertice(Grafo *G, int vertice, int aresta)
 
 }
 
-int guloso(Grafo *G, int vetor[])
+int guloso(Grafo *G, int vetor[], double *tempo)
 {
     no *vertice;
     no *aresta;
     no *noGrau;
+    int flag = 0, sorteado = 0;
+    // adicionando aleatoriedade
+    // srand(time(NULL));
+    // sorteado = rand()% G->numV+1;
+    // printf("sorteado %d, tamanho vetor: %d\n", sorteado, G->numV);
     inicializaGuloso(G); // prepara grafo para realizar a busca
+
+    clock_t init = clock(); // começa a medir o tempo
     while(buscaVertice(G) != NULL) // busca o vertice com maior numero de arestas não cobertas
     {
-        noGrau = buscaVertice(G);
+        // if(flag == 0)
+        // {
+        //   noGrau = buscaV(G,sorteado);
+        //   flag = 1;
+        // }
+        // else
+        // {
+          noGrau = buscaVertice(G);
+        // }
         aresta = noGrau->prox;
 
         while(aresta != NULL) // loop para percorrer as arestas do vertice
@@ -102,10 +118,11 @@ int guloso(Grafo *G, int vetor[])
           aresta = aresta->prox; // proxima aresta
         }
         noGrau->cor = Preto; // pinta o vertice de preto
-        printf("pintou %d\n", noGrau->id);
+        // printf("pintou %d\n", noGrau->id);
         vetor[noGrau->id-1] = 1; // seta o indice do vertice que foi pintado no vetor final
     }
-    // buscar o vertice de maior grau e pintar suas arestas
+    clock_t end = clock(); // pega o tempo final
+    *tempo = (double)(end - init)/ CLOCKS_PER_SEC; // calculo do tempo de execucao
 
 }
 
